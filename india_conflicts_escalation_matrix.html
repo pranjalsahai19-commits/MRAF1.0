@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>India's Military Conflicts Since Independence — Escalation Matrix</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg2: #f7f6f2;
+    --bg3: #f0efe9;
+    --text: #1a1a18;
+    --text2: #5a5a56;
+    --text3: #9a9a94;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.18);
+    --info-bg: #e6f1fb;
+    --info-text: #0c447c;
+    --info-border: #85b7eb;
+    --accent: #1a3a6e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --bg2: #242422;
+      --bg3: #2c2c2a;
+      --text: #e8e6de;
+      --text2: #a8a69e;
+      --text3: #6a6a64;
+      --border: rgba(255,255,255,0.10);
+      --border2: rgba(255,255,255,0.18);
+      --info-bg: #0c2a44;
+      --info-text: #85b7eb;
+      --info-border: #185fa5;
+      --accent: #5b8ecf;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--accent);
+    color: #fff;
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .header-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 10px;
+  }
+  .header-title {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  .header-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  .header-meta {
+    margin-top: 16px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-badge {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  /* LEGEND */
+  .legend-section {
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border);
+    padding: 14px 2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .legend-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-right: 4px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* FRAMEWORK REFERENCE */
+  .framework-bar {
+    background: var(--bg3);
+    border-bottom: 0.5px solid var(--border);
+    padding: 12px 2rem;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .fw-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-right: 6px; }
+  .fw-item {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  /* CONTROLS */
+  .controls {
+    padding: 16px 2rem;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .controls-label { font-size: 12px; color: var(--text3); margin-right: 4px; }
+  .filter-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 0.5px solid var(--border2);
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text2);
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { background: var(--bg2); }
+  .filter-btn.active {
+    background: var(--info-bg);
+    color: var(--info-text);
+    border-color: var(--info-border);
+  }
+
+  /* MAIN */
+  .main { padding: 1.5rem 2rem 3rem; max-width: 960px; margin: 0 auto; }
+
+  /* CARDS */
+  .conflict-card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .conflict-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+  .card-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: start;
+    padding: 16px 18px 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-header:hover { background: var(--bg2); }
+  .conflict-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .conflict-meta {
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+  .escalation-pills { display: flex; gap: 5px; flex-wrap: wrap; }
+  .pill {
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pill-tension  { background: #faeeda; color: #633806; }
+  .pill-llow     { background: #eaf3de; color: #27500a; }
+  .pill-lplus    { background: #e6f1fb; color: #0c447c; }
+  .pill-l        { background: #eeedfe; color: #3c3489; }
+  .pill-full     { background: #fcebeb; color: #791f1f; }
+  @media (prefers-color-scheme: dark) {
+    .pill-tension  { background: #412402; color: #fac775; }
+    .pill-llow     { background: #173404; color: #c0dd97; }
+    .pill-lplus    { background: #042c53; color: #85b7eb; }
+    .pill-l        { background: #26215c; color: #afa9ec; }
+    .pill-full     { background: #501313; color: #f09595; }
+  }
+  .chevron {
+    font-size: 18px;
+    color: var(--text3);
+    transition: transform 0.2s;
+    margin-top: 4px;
+    line-height: 1;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* CARD BODY */
+  .card-body {
+    display: none;
+    padding: 0 18px 16px;
+    border-top: 0.5px solid var(--border);
+    animation: fadeIn 0.15s ease;
+  }
+  .card-body.open { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 14px 0 7px;
+  }
+
+  /* TOOL CHIPS */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 6px;
+  }
+  .tool-chip {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.4;
+  }
+  .tool-chip strong {
+    display: block;
+    font-size: 10px;
+    color: var(--text3);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 2px;
+  }
+
+  /* INFO BOXES */
+  .info-box {
+    background: var(--bg2);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .notable-box {
+    background: var(--info-bg);
+    border-left: 2px solid var(--info-border);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--info-text);
+    line-height: 1.6;
+  }
+
+  /* SUMMARY STATS */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--bg2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  /* FOOTER */
+  .site-footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--text3);
+    border-top: 0.5px solid var(--border);
+    background: var(--bg2);
+  }
+
+  @media (max-width: 600px) {
+    .site-header { padding: 1.5rem 1rem 1.5rem; }
+    .main { padding: 1rem 1rem 2rem; }
+    .controls { padding: 12px 1rem; }
+    .legend-section { padding: 10px 1rem; }
+    .framework-bar { padding: 10px 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-tag">Strategic Analysis · Escalation Framework</div>
+  <h1 class="header-title">India's Military Conflicts Since Independence</h1>
+  <p class="header-sub">Every conflict mapped against the escalation ladder — from Tension to Full Limited War — with the military instruments deployed at each level.</p>
+  <div class="header-meta">
+    <span class="meta-badge">14 Conflicts · 1947–2025</span>
+    <span class="meta-badge">Escalation Framework: Tension → Full</span>
+    <span class="meta-badge">All three services tracked</span>
+  </div>
+</header>
+
+<div class="legend-section">
+  <span class="legend-label">Escalation levels</span>
+  <div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div><span>Tension — political threat of force</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B6D11"></div><span>L Low — armed forces contact, no exchange</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#185FA5"></div><span>L+ — restricted, localised exchange</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#534AB7"></div><span>L — localised war, partial mobilisation</span></div>
+  <div class="legend-item"><div class="legend-dot" style="background:#A32D2D"></div><span>Full — unconstrained, full mobilisation</span></div>
+</div>
+
+<div class="controls">
+  <span class="controls-label">Filter:</span>
+  <button class="filter-btn active" onclick="filterCards('all',this)">All (14)</button>
+  <button class="filter-btn" onclick="filterCards('pakistan',this)">vs Pakistan</button>
+  <button class="filter-btn" onclick="filterCards('china',this)">vs China</button>
+  <button class="filter-btn" onclick="filterCards('other',this)">Other</button>
+  <button class="filter-btn" onclick="filterCards('full',this)">Reached Full War</button>
+</div>
+
+<div class="main">
+
+  <div class="stats-row" id="stats-row">
+    <div class="stat-card"><div class="stat-num" id="s-total">14</div><div class="stat-label">Total conflicts</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-full">5</div><div class="stat-label">Reached Full war</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-pak">8</div><div class="stat-label">vs Pakistan</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-china">2</div><div class="stat-label">vs China</div></div>
+  </div>
+
+  <div id="cards"></div>
+</div>
+
+<footer class="site-footer">
+  Escalation framework sourced from Indian strategic studies literature. Data compiled from publicly available historical records.<br>
+  Generated for research and educational purposes.
+</footer>
+
+<script>
+const conflicts = [
+  {
+    name: "First Kashmir War",
+    year: "1947–48",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l","full"],
+    tools: {
+      "Tension": ["Pakistani tribal militia pressure on Kashmir","Economic squeeze on Maharaja's government"],
+      "L Low": ["Tribal lashkar infiltrations across border","J&K State Forces initial engagement"],
+      "L+": ["INF BDE airlifted to Srinagar (historic first)","Spitfires & Tempests strafing raiders","TPT AC SQN Dakotas — decisive airlift"],
+      "L": ["Multiple INF BDE across Jammu, Kashmir, Ladakh fronts","ARTY BDE at Zojila Pass","FIGHTER SQN: air support & reconnaissance"],
+      "Full": ["Full Indian Army mobilisation on all fronts","IAF ground-attack sorties throughout","Battle of Shelateng — decisive combined ops","No naval engagement (landlocked theater)"]
+    },
+    outcome: "Ceasefire Jan 1949. India retains ~2/3 of Kashmir. Line of Control established. UN Resolution 47 — plebiscite never held.",
+    notable: "India's first post-independence military operation. The IAF airlift on 27 Oct 1947 saved Srinagar — aircraft landed even before the Instrument of Accession was signed."
+  },
+  {
+    name: "Operation Polo — Hyderabad Integration",
+    year: "1948",
+    adversary: "other",
+    escalation: ["tension","llow","lplus"],
+    tools: {
+      "Tension": ["Political ultimatum to Nizam","Economic blockade imposed","Diplomatic isolation"],
+      "L Low": ["Troop positioning on all borders","Irregular Razakar militia provocations"],
+      "L+": ["INF BDE rapid five-pronged ground advance","ARTY BDE artillery support","TPT AC SQN logistics backbone","Limited air cover — no aerial combat"]
+    },
+    outcome: "108-hour 'police action'. Nizam surrenders 17 Sep 1948. Hyderabad integrated into Indian Union with minimal casualties.",
+    notable: "India's fastest military victory — achieved in under 5 days. Called a 'police action' to avoid international legal complications as Hyderabad had applied to UN."
+  },
+  {
+    name: "Goa Liberation — Operation Vijay",
+    year: "1961",
+    adversary: "other",
+    escalation: ["tension","llow","lplus","l"],
+    tools: {
+      "Tension": ["Political demands for Portuguese withdrawal","18 years of diplomatic negotiation","UN debates"],
+      "L Low": ["Troop concentration on Goa, Daman & Diu borders"],
+      "L+": ["INF BDE ground advance on multiple axes","FIGHTER SQN — rapid air superiority established","TPT AC SQN logistics support"],
+      "L": ["INS Vikrant (AC CARRIER) — naval blockade of Goa","DESTR/FRIG: INS Delhi + flotilla","Tri-service combined operation","Naval gunfire support for ground forces","36-hour operation total"]
+    },
+    outcome: "451 years of Portuguese colonial rule ended. India seizes Goa, Daman & Diu. Portugal refuses to recognise the annexation for 13 years.",
+    notable: "India's FIRST tri-service combined arms operation. First operational use of aircraft carrier INS Vikrant. Condemned by USA, UK in UN Security Council."
+  },
+  {
+    name: "Sino-Indian War",
+    year: "1962",
+    adversary: "china",
+    escalation: ["tension","llow","lplus","l","full"],
+    tools: {
+      "Tension": ["McMahon Line & Aksai Chin disputes","Chinese road construction in Indian-claimed territory","'Forward Policy' — India establishes border outposts"],
+      "L Low": ["Border patrol confrontations at Galwan, Chip Chap, Depsang","Competing check-post establishment"],
+      "L+": ["INF BDE lightly armed mountain infantry — critical altitude disadvantage","ARTY BDE — underdeployed due to logistics & terrain"],
+      "L": ["Full PLA offensive — Thag La Ridge, NEFA sector","Indian brigades overwhelmed at Rezang La (13 Kumaon)","Defensive withdrawals across both Eastern & Western fronts"],
+      "Full": ["Full PLA mobilisation vs Indian Corps","IAF NOT deployed — political decision by Nehru","No naval engagement","PLA unilateral ceasefire Nov 21, 1962"]
+    },
+    outcome: "Decisive Chinese victory. India loses Aksai Chin. Humiliating national trauma. Army expanded 400k→825k post-war. Nehru never recovered politically.",
+    notable: "Only Indian military defeat since independence. IAF was available but grounded by political order — most debated strategic decision in Indian military history. China held all its gains."
+  },
+  {
+    name: "Indo-Pakistani War",
+    year: "1965",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l","full"],
+    tools: {
+      "Tension": ["Rann of Kutch skirmish Apr 1965","Operation Gibraltar — massive infiltration into Kashmir"],
+      "L Low": ["Pakistani guerrilla infiltrators (Op Gibraltar)","Pakistani Rangers & irregular forces in Kashmir valley"],
+      "L+": ["INF BDE engagement across Kashmir valley","ARTY BDE initial exchanges at LoC"],
+      "L": ["Operation Grand Slam — Pakistani MECH BD thrust toward Akhnoor","Indian counter-offensive toward Lahore & Sialkot","ARTY BDE — Battle of Asal Uttar: largest tank battle since WWII","FIGHTER SQN: IAF vs PAF — first major Indo-Pak air war"],
+      "Full": ["Full Army mobilisation on International Border","IAF strikes on PAF bases (Sargodha, Peshawar, Badin)","Indian Navy: DESTR/FRIG deployed in Arabian Sea","Naval blockade posture maintained throughout"]
+    },
+    outcome: "UN ceasefire 23 Sep 1965. Tashkent Agreement Jan 1966 (Shastri dies signing it). Military draw — India has strategic edge, Pakistan suffers heavier losses proportionally.",
+    notable: "Battle of Asal Uttar — India destroyed 97 Pakistani tanks with Centurions & recoilless rifles. IAF performed poorly in air-to-air but improved doctrine significantly post-war."
+  },
+  {
+    name: "Indo-Pakistani War / Bangladesh Liberation",
+    year: "1971",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l","full"],
+    tools: {
+      "Tension": ["West Pakistani crackdown — 10M refugees flood India","Diplomatic recognition campaign for Bangladesh","Operation Jackpot — RAW-trained naval commandos"],
+      "L Low": ["Mukti Bahini guerrilla operations (Mar–Nov 1971)","Indian Army advisors, training & covert support"],
+      "L+": ["INF BDE cross-border fire support","FORCE MULTIPLIERS: Intelligence, radio intercepts (Operation Trident preparation)"],
+      "L": ["Eastern Front: INF BDE + MECH BD — fastest advance in post-WWII history","IAF achieves total air superiority in East within 48 hours","Western Front: ARTY BDE, Battle of Longewala"],
+      "Full": ["Full Army ops on Eastern & Western fronts simultaneously","FIGHTER SQN — complete air dominance, all PAF eastern bases destroyed","AC CARRIER INS Vikrant — Bay of Bengal blockade, cuts off E. Pakistan","SUBS: INS Kalvari & others — submarine blockade Arabian Sea","DESTR/FRIG: INS Khukri sunk (only loss), PNS Ghazi sunk by INS Rajput","MISSILE L-L: Styx missiles in Operation Trident & Python — first anti-ship missiles in South Asia","13-day war — 93,000 Pakistani POWs surrendered"]
+    },
+    outcome: "India's greatest military victory. Bangladesh created. 93,000 Pakistani POWs — largest military surrender since WWII. Mrs Gandhi's finest hour. Changed South Asian geopolitics permanently.",
+    notable: "ONLY conflict where India deployed its COMPLETE arsenal simultaneously — carrier, submarines, anti-ship missiles, all three services. The gold standard of Indian military performance. Nixon sent USS Enterprise — India held firm."
+  },
+  {
+    name: "Siachen Conflict — Operation Meghdoot",
+    year: "1984–ongoing",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l"],
+    tools: {
+      "Tension": ["Pakistan's cartographic manipulation of Siachen boundary","International mountaineering expedition competition for territory"],
+      "L Low": ["Patrol confrontations on glacier approaches"],
+      "L+": ["INF BDE helicopter-inserted at world's highest battlefield (Apr 13, 1984)","ATTACK HEPTR BDE — Mi-8, Chetak, Cheetah at 20,000 ft+","TPT AC SQN — continuous high-altitude airlift","ARTY BDE — extreme altitude artillery engagement"],
+      "L": ["Sustained garrison at Sia La, Bilafond La, Gyong La passes","Continuous helicopter resupply — world's longest sustained airlift op","Artillery duels at 20,000+ ft","AD BDE/REGD deployed against aerial threats","FORCE MULTIPLIERS: Satellite imagery used for planning"]
+    },
+    outcome: "India holds all key passes on Saltoro Ridge — 70km of Siachen Glacier. Ongoing technically. Over 2,000+ casualties — majority from weather, not combat. Costs India ~$1M/day.",
+    notable: "World's highest battlefield. India beat Pakistan by days — Pakistani expedition set to establish posts the same week. Mi-8 helicopters at 21,000 ft remains an aviation achievement."
+  },
+  {
+    name: "IPKF — Sri Lanka",
+    year: "1987–90",
+    adversary: "other",
+    escalation: ["tension","llow","lplus","l"],
+    tools: {
+      "Tension": ["Tamil refugee & political crisis in India","Rajiv Gandhi-Jayewardene Accord signed","LTTE rejected the accord"],
+      "L Low": ["Initial peacekeeping posture","Early patrol confrontations with LTTE"],
+      "L+": ["INF BDE counter-insurgency sweeps","ATTACK HEPTR BDE — Mi-25 Hind gunships: first Indian combat use"],
+      "L": ["Full IPKF offensive — Battle of Jaffna University 1987","Urban warfare: INF BDE + Para Commandos","ARTY BDE fire support in Jaffna Peninsula","TPT AC SQN logistics throughout","Indian Navy: DESTR/FRIG coastal interdiction patrols","FORCE MULTIPLIERS: Electronic surveillance, signals intelligence"]
+    },
+    outcome: "IPKF withdrew 1990 following political reversal by new Sri Lankan President Premadasa. 1,200+ Indian soldiers killed. LTTE not defeated. Rajiv Gandhi assassinated by LTTE 1991.",
+    notable: "India's most painful intervention. First use of Mi-25 attack helicopters in Indian combat. Urban warfare in Jaffna exposed serious COIN limitations. Led to doctrine review."
+  },
+  {
+    name: "Kargil War — Operations Vijay & Safed Sagar",
+    year: "1999",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l","full"],
+    tools: {
+      "Tension": ["Pakistani NLI regulars disguised as militants detected May 1999","Diplomatic crisis — Vajpayee had just visited Lahore"],
+      "L Low": ["Initial patrol contacts — Capt Saurabh Kalia's patrol captured & killed","Early reconnaissance revealing scale of infiltration"],
+      "L+": ["INF BDE direct assault on mountain peaks (Tiger Hill, Tololing, Point 4875)","ARTY BDE — Bofors FH-77B at extreme elevation — decisive fire support","ATTACK HEPTR BDE — Mi-17 deployed (one shot down by MANPAD)"],
+      "L": ["Multi-brigade coordinated assaults — over 200 positions retaken","IAF Operation Safed Sagar — Mirage 2000 with laser-guided bombs (LGB first use)","MiG-27 & MiG-21 strikes on logistics & supply lines","FIGHTER SQN — air strikes constrained to Indian side of LoC"],
+      "Full": ["200,000+ troops mobilised — Operation Vijay","IAF flew 550+ combat sorties","Indian Navy full mobilisation — Arabian Sea posture (deterrence signal)","No ground crossing into Pakistan — nuclear threshold consciously respected","Pakistan forced to withdraw under international & US pressure"]
+    },
+    outcome: "India retakes all peaks by Jul 26, 1999 (Kargil Vijay Diwas). 527 Indians killed. Pakistan's ISI adventure collapses. First war between de facto nuclear-armed states.",
+    notable: "India deliberately kept conflict below full war threshold despite nuclear capability. Naval mobilisation was a strategic signal. LGBs used by IAF for first time. Changed India's nuclear doctrine thinking."
+  },
+  {
+    name: "Operation Parakram — Twin Peaks Standoff",
+    year: "2001–02",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus"],
+    tools: {
+      "Tension": ["Parliament attack Dec 13, 2001 — 14 killed","Diplomatic downgrade — High Commissioners recalled","Airspace closed to Pakistani aircraft"],
+      "L Low": ["Full military mobilisation ordered — all sectors activated","Forward deployment of Strike Corps begins"],
+      "L+": ["500,000+ troops on International Border — largest since 1971","MECH BD — armoured formations at forward positions","ARTY BDE repositioned to strike locations","FIGHTER SQN on 24/7 alert","Indian Navy: Carrier group + destroyer flotilla deployed","SUBS forward deployed in Arabian Sea","FORCE MULTIPLIERS: Full ISR, EW, satellite surveillance activated"]
+    },
+    outcome: "No kinetic operations launched. US pressure led to Pakistan's Jan 2002 'commitment' to stop cross-border terrorism. Mobilisation cost ~$3 billion. Led directly to Cold Start doctrine.",
+    notable: "Largest military mobilisation without war in history. Demonstrated India's conventional deterrence. Exposed critical logistical slowness (3 weeks to mobilise). Cold Start doctrine developed as response."
+  },
+  {
+    name: "Galwan Valley Clash",
+    year: "2020",
+    adversary: "china",
+    escalation: ["tension","llow","lplus"],
+    tools: {
+      "Tension": ["PLA road construction in Galwan Valley — detected by satellite","Face-offs at Pangong Tso, Gogra, Depsang (Apr–May 2020)","China changes patrolling pattern to claim new territory"],
+      "L Low": ["Face-offs escalate to hand-to-hand combat Jun 15-16 (per 1996 no-guns agreement)","20 Indian, 35+ Chinese soldiers killed — no firearms used","Galwan River valley — night engagement in extreme cold"],
+      "L+": ["50,000+ troops rushed to Ladakh in largest mobilisation since 1962","MECH BD — T-90 tanks to Pangong Tso south bank (unprecedented altitude)","ATTACK HEPTR BDE — Apache AH-64 & Chinook forward-deployed to Leh","FIGHTER SQN — Su-30MKI, Rafale (newly inducted) at Leh airbase","AD BDE/REGD — S-400 delivery accelerated, MANPAD ring established","FORCE MULTIPLIERS: Drones, satellite surveillance, EW — full ISR picture","India captures Kailash Range heights — key tactical advantage"]
+    },
+    outcome: "First India-China fatalities since 1967. Both sides disengaged from friction points by Feb 2021 (Pangong Tso) and Sep 2022 (Gogra-Hot Springs). India retains tactical posture improvements.",
+    notable: "No firearms used — both sides honoured 1996 border protocol even while soldiers died. India's strongest military response to China since 1962. Rafale induction completed mid-crisis — timed signal."
+  },
+  {
+    name: "Uri Attack & Surgical Strikes",
+    year: "2016",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus"],
+    tools: {
+      "Tension": ["Uri Army Camp attack Sep 18 — 18 soldiers killed","Political crisis — calls for strong response","Diplomatic pressure: SAARC summit cancelled"],
+      "L Low": ["Intelligence gathering on launch pads across LoC","Surveillance drones over target locations"],
+      "L+": ["Special Forces (Para SF) cross-LoC raids — 7 terrorist launch pads destroyed","ATTACK HEPTR BDE: Mi-17 helicopter-inserted Para SF teams","FORCE MULTIPLIERS: Satellite intel, drone recce, signals intelligence — precise targeting"]
+    },
+    outcome: "India broke 40-year strategic restraint — first publicly acknowledged cross-LoC offensive strike. Pakistan denied attacks occurred. Changed escalation calculus in India-Pakistan relations.",
+    notable: "India's decision to go public with surgical strikes was unprecedented. Previous governments had conducted covert operations but never claimed them. Domestic political signal as much as military one."
+  },
+  {
+    name: "Balakot Airstrikes",
+    year: "2019",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l"],
+    tools: {
+      "Tension": ["Pulwama attack Feb 14 — 40 CRPF killed (deadliest attack in decades)","National outrage — war drums beating"],
+      "L Low": ["Intelligence identification of Jaish-e-Mohammed camp at Balakot"],
+      "L+": ["12 Mirage 2000 jets cross LoC Feb 26 — first IAF strike inside Pakistan since 1971","Spice-2000 precision glide bombs — standoff strike from Indian airspace"],
+      "L": ["Pakistan retaliatory F-16 sortie Feb 27 — dogfight over LoC","IAF MiG-21 Bison downs Pakistani F-16 (contested) — Wing Cdr Abhinandan captured","AD BDE/REGD — own Mi-17 accidentally shot down by Indian SAM (friendly fire)","FIGHTER SQN — full air defence posture on both sides","De-escalation: Abhinandan returned in 60 hours under US, Saudi, UAE pressure"]
+    },
+    outcome: "First IAF strike inside Pakistan since 1971. Pilot captured and returned. Both sides de-escalated. India changed escalation threshold — airstrikes inside Pakistan are now on the table.",
+    notable: "India crossed the psychological nuclear threshold — airstrikes inside Pakistan proper (Punjab province approach), not just LoC. Both sides used nuclear signalling. Changed South Asian deterrence calculus permanently."
+  },
+  {
+    name: "Operation Sindoor",
+    year: "2025",
+    adversary: "pakistan",
+    escalation: ["tension","llow","lplus","l"],
+    tools: {
+      "Tension": ["Pahalgam terrorist attack Apr 22 — 26 tourists killed","Indus Waters Treaty suspended — unprecedented","Attari-Wagah border closed, diplomatic downgrade","Pakistani airspace closed to Indian aircraft"],
+      "L Low": ["Intelligence preparation — 2 weeks of target development","Diplomatic isolation: India briefs P5 + key partners"],
+      "L+": ["Precision missile & air strikes on 9 terror infrastructure targets (May 7)","Targets in PoK AND Pakistani Punjab — deepest strikes since 1971","FORCE MULTIPLIERS: Satellite targeting, drone ISR, EMS jamming during strikes"],
+      "L": ["Pakistan air response — India claims multiple shootdowns including F-16","FIGHTER SQN on full combat air patrol","Indian Navy — Carrier Strike Group in Arabian Sea posture","Drone warfare: both sides deploy armed UAVs — new domain","Ceasefire negotiated May 10, 2025 — US brokered"]
+    },
+    outcome: "4-day operation. 9 terror infrastructure sites struck. Ceasefire May 10, 2025. Most significant India-Pakistan military exchange since 1971. Established new deterrence precedent.",
+    notable: "First strikes on Pakistani Punjab province. India demonstrated multi-domain capability: precision missiles + air + EMS + drones simultaneously. Nuclear signalling by both sides throughout. New normal in India-Pakistan relations."
+  }
+];
+
+const pillClass = { tension:'pill-tension', llow:'pill-llow', lplus:'pill-lplus', l:'pill-l', full:'pill-full' };
+const pillLabel = { tension:'Tension', llow:'L Low', lplus:'L+', l:'L', full:'Full' };
+let activeFilter = 'all';
+
+function filterCards(f, btn) {
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+
+function toggleCard(id) {
+  const body = document.getElementById('body-'+id);
+  const chev = document.getElementById('chev-'+id);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function renderCards() {
+  const container = document.getElementById('cards');
+  container.innerHTML = '';
+  const filtered = conflicts.filter(c => {
+    if (activeFilter === 'all') return true;
+    if (activeFilter === 'full') return c.escalation.includes('full');
+    return c.adversary === activeFilter;
+  });
+
+  // Update stats
+  document.getElementById('s-total').textContent = filtered.length;
+  document.getElementById('s-full').textContent = filtered.filter(c => c.escalation.includes('full')).length;
+  document.getElementById('s-pak').textContent = filtered.filter(c => c.adversary === 'pakistan').length;
+  document.getElementById('s-china').textContent = filtered.filter(c => c.adversary === 'china').length;
+
+  filtered.forEach((c, i) => {
+    const adv = c.adversary === 'other' ? 'Other' : c.adversary.charAt(0).toUpperCase() + c.adversary.slice(1);
+    const div = document.createElement('div');
+    div.className = 'conflict-card';
+    div.innerHTML = `
+      <div class="card-header" onclick="toggleCard(${i})">
+        <div>
+          <div class="conflict-name">${c.name}</div>
+          <div class="conflict-meta">${c.year} &nbsp;·&nbsp; Adversary: ${adv}</div>
+          <div class="escalation-pills">
+            ${c.escalation.map(e => `<span class="pill ${pillClass[e]}">${pillLabel[e]}</span>`).join('')}
+          </div>
+        </div>
+        <div class="chevron" id="chev-${i}">&#8964;</div>
+      </div>
+      <div class="card-body" id="body-${i}">
+        <div class="section-label">Military instruments by escalation level</div>
+        <div class="tool-grid">
+          ${Object.entries(c.tools).map(([level, tools]) => tools.map(t =>
+            `<div class="tool-chip"><strong>${level}</strong>${t}</div>`
+          ).join('')).join('')}
+        </div>
+        <div class="section-label">Outcome</div>
+        <div class="info-box">${c.outcome}</div>
+        <div class="section-label">Strategic significance</div>
+        <div class="notable-box">${c.notable}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text3);font-size:14px;">No conflicts match this filter.</div>';
+  }
+}
+
+renderCards();
+</script>
+</body>
+</html>
